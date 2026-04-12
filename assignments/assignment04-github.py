@@ -1,10 +1,10 @@
 # Importing pyGitHub API
 from github import Github, Auth
-from config import apikeys as cfg
+import config as config
 
 # Secure way to use API key from config.py
 # Couldnt get auth working so added AUTH.TOKEN
-auth = Auth.Token(cfg["githubkey"])
+auth = Auth.Token(config.apikeys["githubkey"])
 g = Github(auth=auth)
 
 # Get the repository
