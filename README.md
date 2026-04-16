@@ -46,7 +46,7 @@ WSAA-coursework/
 
 ## Assignments
 
-- **assignment2-carddraw**: Card drawing operations
+- **assignment2-carddraw**: Card drawing operations — completed
 - **assignment03-cso**: Working with CSO (Central Statistics Office) API
 - **assignment04-github**: GitHub API interactions using PyGithub
 
