@@ -1,26 +1,38 @@
-import sqlite3
+import mysql.connector
 
 class StudentDAO:
-    db_file = "wsaa.db"
-    connection = ""
-    cursor = ""
+    host = "localhost"
+    user = "root"
+    password = ""
+    database = "wsaa"
+    connection = None
+    cursor = None
 
     def __init__(self):
-        self.db_file = "wsaa.db"
+        self.host = "localhost"
+        self.user = "root"
+        self.password = ""
+        self.database = "wsaa"
 
     def getCursor(self):
-        self.connection = sqlite3.connect(self.db_file)
-        self.connection.row_factory = sqlite3.Row 
+        self.connection = mysql.connector.connect(
+            host=self.host,
+            user=self.user,
+            password=self.password,
+            database=self.database
+        )
         self.cursor = self.connection.cursor()
         return self.cursor
 
     def closeAll(self):
-        self.connection.close()
-        self.cursor.close()
+        if self.connection:
+            self.connection.close()
+        if self.cursor:
+            self.cursor.close()
 
     def create(self, values):
         cursor = self.getCursor()
-        sql="insert into student (name, age) values (?,?)"
+        sql = "insert into student (name, age) values (%s, %s)"
         cursor.execute(sql, values)
         self.connection.commit()
         newid = cursor.lastrowid
@@ -48,14 +60,14 @@ class StudentDAO:
 
     def update(self, values):
         cursor = self.getCursor()
-        sql = "update student set name=?, age=? where id=?"
+        sql = "update student set name = %s, age = %s where id = %s"
         cursor.execute(sql, values)
         self.connection.commit()
         self.closeAll()
 
     def delete(self, id):
         cursor = self.getCursor()
-        sql = "delete from student where id = ?"
+        sql = "delete from student where id = %s"
         values = (id,)
         cursor.execute(sql, values)
         self.connection.commit()
